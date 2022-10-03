@@ -1,0 +1,15 @@
+DOA: v1
+Start: 0
+Acceptance: 0 & 3
+--BEGIN--
+State: 0
+-> a 0
+-> a 1
+-> b 2
+-> b 3
+State: 1
+-> b 0
+State: 2
+-> a 3
+State: 3
+--END--

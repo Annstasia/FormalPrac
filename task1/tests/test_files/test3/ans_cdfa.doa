@@ -1,0 +1,42 @@
+DOA: v1
+Start: 1
+Acceptance: 2489 & 23467 & 248910 & 410 & 4
+--BEGIN--
+State:  1
+-> b 25
+-> a x
+State: 25
+-> a 2
+-> b 267
+State: 2
+-> a x
+-> b 267
+State: 267
+-> b 267
+-> a 28
+State: 28
+-> a x
+-> b 2367
+State: 2367
+-> a 2489
+-> b 267
+State: 2489
+-> a 410
+-> b 23467
+State: 23467
+-> a 248910
+-> b 267
+State: 248910
+-> a 410
+-> b 23467
+State: 410
+-> a 410
+-> b 4
+State: 4
+-> a 410
+-> b x
+State: x
+-> a x
+-> b x
+
+--END--

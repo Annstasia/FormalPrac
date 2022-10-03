@@ -1,0 +1,35 @@
+DOA: v1
+Start: 1
+Acceptance: 345 & 26 & 38 & 375 & 6 & 3
+--BEGIN--
+State:  1
+-> a 345
+-> b 5
+State: 345
+-> a 38
+-> b 26
+State: 38
+-> a 3
+-> b 6
+State: 3
+-> a 3
+-> b x
+State x:
+-> a x
+-> b x
+State: 6
+-> a 5
+-> b 5
+State: 375
+-> a 38
+-> b 26
+State: 26
+-> a 375
+-> b 5
+State: 5
+-> a 8
+-> b 6
+State: 8
+-> a x
+-> b 6
+--END--
