@@ -7,8 +7,8 @@ class OneLetterNFA(NFA):
         if not isinstance(nfa, OneLetterNFA):
             self.__make_one_letter()
 
-    def read_file(self, file_name):
-        super().read_file(file_name)
+    def build_from_file(self, file_name):
+        super().build_from_file(file_name)
         self.__make_one_letter()
 
     def __make_one_letter(self):

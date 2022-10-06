@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import typing
 
 
 class NFA:
@@ -13,54 +14,69 @@ class NFA:
             self.edges = dict()
             self.color = 0
             self.is_terminal = is_terminal
-        #
-        # def get_next_state_name(self, letter):
-        #     return frozenset(i.name for i in self.edges[letter])
 
         def __str__(self):
             return str(self.name)
 
     _EPS = "EPS"
-    _states_list: list[NFA.State] = []
-    _alphabet: set[str] = set()
+    _states_list: typing.List[NFA.State] = []
+    _alphabet: typing.Set[str] = set()
 
     def __init__(self, nfa: NFA = None):
         if nfa is not None:
             self._states_list = copy.deepcopy(nfa._states_list)
             self._alphabet = copy.deepcopy(nfa._alphabet)
         else:
-            self._states_list: list[NFA.State] = []
-            self._alphabet: set[str] = set()
+            self._states_list: typing.List[NFA.State] = []
+            self._alphabet: typing.Set[str] = set()
 
-    def __check_state_name(self, state_name, states_names: dict[object, State]):
+    def build_from_file(self, file_name):
+        start_name, acceptance, read_states = self._read_file(file_name)
+        self._build_nfa(start_name, acceptance, read_states)
+
+    def __check_state_name(self, state_name, states_names: typing.Dict[object, State]):
         if state_name not in states_names:
             self._states_list.append(self.State(len(self._states_list)))
             states_names[state_name] = self._states_list[-1]
         return states_names[state_name]
 
-    def read_file(self, file_name):
-        # read automate and rename states. state's index in _states_list is equal to it name
-        states_names: dict[str, NFA.State] = dict()
+    @staticmethod
+    def _read_file(file_name):
+        start = ""
+        read_states: typing.Dict[str, typing.Dict[str, typing.Set[str]]] = dict()
+        acceptance: typing.List[str] = []
         with open(file_name, mode="r") as f:
-            current_state = None
+            current_state = ""
             for string in f.readlines():
                 string = string.rstrip('\n')
                 if string.startswith("Start: "):
-                    self._states_list.append(self.State(0))
-                    states_names[string.split()[1]] = self._states_list[0]
+                    start = string.split()[1]
                 elif string.startswith("Acceptance: "):
-                    states = string.lstrip("Acceptance: ").replace(" ", "").split("&")
-                    for state_name in states:
-                        self.__check_state_name(state_name, states_names).is_terminal = True
+                    acceptance = string.lstrip("Acceptance: ").replace(" ", "").split("&")
                 elif string.startswith("State: "):
-                    state_name = string.split()[1]
-                    current_state = self.__check_state_name(state_name, states_names)
+                    current_state = string.split()[1]
+                    if current_state not in read_states:
+                        read_states[current_state] = dict()
                 elif string.startswith("->"):
                     arrow, word, child_state = string.split()
-                    child = self.__check_state_name(child_state, states_names)
-                    current_state.edges[word] = current_state.edges.get(word, set()).union({child})
-                    if word != self._EPS:
-                        self._alphabet |= set(word)
+                    read_states[current_state][word] = read_states[current_state].get(word, set()) | {child_state}
+        return start, acceptance, read_states
+
+    def _build_nfa(self, start_name, acceptance, read_states):
+        if len(read_states) == 0:
+            return
+        states_names: typing.Dict[str, NFA.State] = dict()
+        self._states_list.append(self.State(0))
+        states_names[start_name] = self._states_list[0]
+        for state_name in acceptance:
+            self.__check_state_name(state_name, states_names).is_terminal = True
+        for state_name, transitions in read_states.items():
+            state = self.__check_state_name(state_name, states_names)
+            for word, children in transitions.items():
+                state.edges[word] = state.edges.get(word, set()) | set(
+                    self.__check_state_name(name, states_names) for name in children)
+                if word != self._EPS:
+                    self._alphabet |= set(word)
 
     def _get_state_string(self, state: State):
         transitions = []

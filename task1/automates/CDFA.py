@@ -14,9 +14,9 @@ class CDFA(NFA):
             elif nfa is not None:
                 self.__build_cdfa(OneLetterNFA(nfa))
 
-    def read_file(self, file_name):
+    def build_from_file(self, file_name):
         one_letter_nfa = OneLetterNFA()
-        one_letter_nfa.read_file(file_name)
+        one_letter_nfa.build_from_file(file_name)
         self.__build_cdfa(one_letter_nfa)
 
     def __build_cdfa(self, one_letter_nfa: OneLetterNFA):

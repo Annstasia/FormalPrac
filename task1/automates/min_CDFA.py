@@ -7,8 +7,8 @@ class MinCDFA(CDFA):
         if not isinstance(nfa, MinCDFA):
             self.__build_min_cdfa()
 
-    def read_file(self, file_name):
-        super().read_file(file_name)
+    def build_from_file(self, file_name):
+        super().build_from_file(file_name)
         self.__build_min_cdfa()
 
     def __build_min_cdfa(self):

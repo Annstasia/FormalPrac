@@ -9,5 +9,5 @@ Acceptance:
 
 def test_empty():
     mcdfa = MinCDFA()
-    mcdfa.read_file("tests/test_files/test5/test.doa")
+    mcdfa.build_from_file("tests/test_files/test5/test.doa")
     assert str(mcdfa) == empty

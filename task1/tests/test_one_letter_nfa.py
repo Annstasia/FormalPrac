@@ -11,17 +11,15 @@ def swap_by_index(_states_list, index1, index2):
 
 def test_olnfa():
     olnfa = OneLetterNFA()
-    olnfa.read_file("tests/test_files/test1/test.doa")
+    olnfa.build_from_file("tests/test_files/test1/test.doa")
     olnfa._states_list[0].name = 0
     for state in olnfa._states_list[0].edges["a"]:
         if state != olnfa._states_list[0]:
             swap_by_index(olnfa._states_list, 1, state.name)
             state.name = 1
     for state in olnfa._states_list[0].edges["b"]:
-        print("b", state.is_terminal, state.name)
         if state.is_terminal:
             swap_by_index(olnfa._states_list, 3, state.name)
-
         else:
             swap_by_index(olnfa._states_list, 2, state.name)
     with open("tests/test_files/test1/ans_olnfa.doa") as f:

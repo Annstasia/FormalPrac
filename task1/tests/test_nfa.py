@@ -6,7 +6,7 @@ from automates.NFA import NFA
 @pytest.fixture
 def nfa():
     nfa = NFA()
-    nfa.read_file("tests/test_files/test1/test.doa")
+    nfa.build_from_file("tests/test_files/test1/test.doa")
     return nfa
 
 
