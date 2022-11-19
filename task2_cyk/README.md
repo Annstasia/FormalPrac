@@ -2,7 +2,7 @@
 Корневой каталог - task2_cyk
 <p>Установить нужно pytest, pytest-cov</p>
 <div>pip3 install -r requrements.txt</div>
-<p>Запуск тестов из корневого каталога (task1):
+<p>Запуск тестов из корневого каталога (task2_cyk):
 
 python3 -m pytest --cov source tests
 </p>
