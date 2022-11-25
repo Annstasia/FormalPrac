@@ -1,0 +1,10 @@
+Alphabet: abced
+Not terminals: A & B & C & D & S
+Start: S
+S -> A & B
+A -> B & A
+S -> a
+B -> c
+C -> c
+A -> a
+S -> EPS
