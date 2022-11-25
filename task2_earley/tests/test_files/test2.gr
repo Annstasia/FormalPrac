@@ -1,0 +1,6 @@
+Alphabet: a & b
+Not terminals: S & F
+Start: S
+S -> a & F & b & F
+F -> a & F & b
+F -> EPS
